@@ -1,11 +1,10 @@
+import math
 
-#NOT COMPLETED OR STARTED, REALLY
-
-def fillGraph(toFill):
+def fillGraph(stones, length):
 	graphStones = []
-	for i in range(0, len(toFill)):
-
-		graphStones.append(toFill[i])
+	for i in range(0, length):
+		graphStones.append(0)
+	graphStones[0] = stones
 	return graphStones
 
 
@@ -15,26 +14,33 @@ def shoot(graphStones, lengthOfGraph):
 		tempGraph.append(0)
 	for i in range(0, lengthOfGraph):
 		if graphStones[i] >= 2:
-			tempGraph[i - 1] += 1
-			tempGraph[(i + 1)%lengthOfGraph] += 1
-			graphStones[i] -= 2
+			tempGraph[i - 1] += math.floor(graphStones[i]/2)
+			tempGraph[(i + 1)%lengthOfGraph] += math.floor(graphStones[i]/2)
+			graphStones[i] -= 2*math.floor(graphStones[i]/2)
 		tempGraph[i] += graphStones[i]
 	printGraph(tempGraph)
 	return tempGraph
 
+
 def printGraph(graphStones):
 	print(graphStones)
 
+
 def main():
-	graphStones = fillGraph([7, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+	graphStones = fillGraph(100, 11)
 	length = len(graphStones)
-
-
-
 	print(graphStones)
-	for i in range(0, 200):
-		graphStones = shoot(graphStones, length)
 
+	tempGraph2 = []
+	for i in range(0, length):
+		tempGraph2.append(0)
+	for i in range(0, 2000):
+		graphStones = shoot(graphStones, length)
+		print(i)
+		if tempGraph2 == graphStones:
+			print(str(i) + " to reach an equilibrium state")
+			break
+		tempGraph2 = graphStones.copy()
 
 
 main()
