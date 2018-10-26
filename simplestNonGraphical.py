@@ -16,7 +16,7 @@ def shoot(graphStones, lengthOfGraph):
 			tempGraph[(i + 1)%lengthOfGraph] += 1
 			graphStones[i] -= 2
 		tempGraph[i] += graphStones[i]
-	printGraph(tempGraph)
+	#printGraph(tempGraph)
 	return tempGraph
 
 
@@ -24,22 +24,51 @@ def printGraph(graphStones):
 	print(graphStones)
 
 
-def main():
-	graphStones = fillGraph(500, 30)
+def playGame(n1, n2, doPrint=False):
+	graphStones = fillGraph(n1, n2)
 	length = len(graphStones)
 	print(graphStones)
 
 	tempGraph2 = []
+	tempGraph3 = []
 	for i in range(0, length):
 		tempGraph2.append(0)
-	for i in range(0, 2000):
+		tempGraph3.append(0)
+	i = 0
+	while(True):
+		i += 1
 		graphStones = shoot(graphStones, length)
-		print(i)
+		if doPrint:
+			#print(i)
+			print(graphStones)
 		if tempGraph2 == graphStones:
-			print(str(i) + " to reach an equilibrium state")
-			break
+			if doPrint:
+				print(str(i) + " to reach an imobile equilibrium state")
+			return 1
+			#break
+		if tempGraph3 == graphStones:
+			if doPrint:
+				print(str(i) + " to reach an 2-oscilating equil state")
+			return 2
+			#break
+		tempGraph3 = tempGraph2.copy()
 		tempGraph2 = graphStones.copy()
+	return 3
 
+def main():
+	for i in range(3, 100):
+		if playGame(i*2, i, False) != 1:
+			print("this ait it chief ")
+			break
+
+	"""
+	for i in range(1, 100):
+		for q in range(1, 100):
+			print(str(i) +", " + str(q) +": ")
+			if(playGame(i, q) == 3):
+				print("this ain't it chief")
+				return
+				"""
 
 main()
 
