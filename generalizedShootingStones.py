@@ -1,3 +1,9 @@
+"""
+Andy J. Wang
+runs shooting stones on a variety of graphs
+Oct. 31, 2018
+
+"""
 
 class vertex (object):
 	name = -1
@@ -56,6 +62,7 @@ def generateCycle(N, S):
 	for i in range(1, N):
 		vertices.append(vertex(i, 0, [vertices[-1]]))
 	vertices.append(vertex(N, 0, [vertices[-1], vertices[0]]))
+	vertices[-1].resolveConnections()
 	vertices[0].updateStones(S)
 
 	return vertices
@@ -64,29 +71,52 @@ def generateConnected(N, S):
 	vertices = []
 	vertices.append(vertex(0, 0, []))
 	for i in range(1, N):
-		print("I: " + str(i))
-		for v in vertices:
-			print(v)
-			print("-----------------")
 		vertices.append(vertex(i, 0, vertices[::-1]))
 		vertices[-1].resolveConnections()
 	vertices[0].updateStones(S)
 
 	return vertices
 
+def generatePath(N, S):
+	vertices = []
+	vertices.append(vertex(0,S,[]))
+	for i in range(1,N):
+		vertices.append(vertex(i, 0, [vertices[-1]]))
+		vertices[-1].resolveConnections()
+	return vertices
 
 def doShoots(t, graph):
 	for i in range(0, t):
+		print("Iteration: " + str(i))
+		print("(Vertex number, Stones, Connections)")
 		for v in graph:
 			v.shoot()
 		for v in graph:
 			v.applyDeltas()
 		for v in graph:
-			print(v.display())
+			for l in v.display():
+				print(str(l) + "\t", end="")
+			#print(v.display())
+			print()
 		print("\n")
 
-a = generateConnected(10, 78)
-for v in a:
-	print(v)
+def main():
+	graphChoice = int(input("What type of graph?(Cycle (0), Connected (1), Path (2)) "))
+	vertexNum = int(input("How many vertices? "))
+	stones = int(input("How many stones? "))
+	iterations = int(input("How many iterations? "))
+	if graphChoice == 0:
+		a = generateCycle(vertexNum, stones)
+	elif graphChoice == 1:
+		a = generateConnected(vertexNum, stones)
+	elif graphChoice == 2:
+		a = generatePath(vertexNum, stones)
+	else:
+		print("invalid input")
+		return
+	for v in a:
+		print(v)
+	doShoots(iterations, a)
 
-doShoots(100, a)
+
+main()

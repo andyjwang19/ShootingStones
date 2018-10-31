@@ -39,29 +39,28 @@ def playGame(n1, n2, doPrint=False):
 	while(True):
 		i += 1
 		graphStones = shoot(graphStones, length)
-		yield graphStones
+		#yield graphStones
 		if doPrint:
-			#print(i)
+			print(i)
 			print(graphStones)
 		if tempGraph2 == graphStones:
 			if doPrint:
 				print(str(i) + " to reach an imobile equilibrium state")
-			#return 1
+			return 1
 			break
 		if tempGraph3 == graphStones:
 			if doPrint:
 				print(str(i) + " to reach an 2-oscilating equil state")
-			#return 2
+			return 2
 			break
 		tempGraph3 = tempGraph2.copy()
 		tempGraph2 = graphStones.copy()
-	#return 3
+	return 3
 
 def main():
 	"""
 	for l in playGame(20,10,False):
 		print(l)
-		"""
 
 	fullList = []
 	for i, lst in enumerate(playGame(22,11,False)):
@@ -87,11 +86,17 @@ def main():
 
 
 	"""
+	for i in range(1,100):
+		for q in range(2*i, 2*i + 100):
+			if playGame(q, i, False) != 1:
+				print("tthis ain't it chiefthis ain't it chiefthis ain't it chiefthis ain't it chiefhis ain't it chief")
+				return
+			"""
 	for i in range(1, 100):
 		for q in range(1, 100):
 			print(str(i) +", " + str(q) +": ")
-			if(playGame(i, q) == 3):
-				print("this ain't it chief")
+			if(playGame(i, q, True) == 3):
+				print("tthis ain't it chiefthis ain't it chiefthis ain't it chiefthis ain't it chiefhis ain't it chief")
 				return
 				"""
 

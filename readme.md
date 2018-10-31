@@ -1,6 +1,11 @@
 # Shooting Stones
 
-Run `simplestNonGraphical.py`
+###Run `generalizedShootingStones.py`
 
-Everything else is experimental
+follow instructions to run simulation
+
+Can simulate Cycle, Connected, and Path graphs
+
+
+######Everything else is experimental
 
